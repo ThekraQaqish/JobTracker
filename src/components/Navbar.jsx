@@ -11,9 +11,9 @@ export default function Navbar({ hideOn = ["/login", "/register"] }) {
   const theme = useTheme();
   const location = useLocation();
 
-  // مع HashRouter، المسار سيحتوي على #، لذلك نحتاج إلى تعديل المقارنة
-  const currentPath = location.pathname;
+  const currentPath = window.location.hash.replace("#", ""); 
   if (hideOn.includes(currentPath)) return null;
+
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -38,17 +38,17 @@ export default function Navbar({ hideOn = ["/login", "/register"] }) {
         </Typography>
 
         <Box sx={{ display: "flex", gap: theme.spacing(2), margin: "0 auto" }}>
-          <Button color="inherit" component={Link} to="/#/dashboard" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
+          <Button color="inherit" component={Link} to="/dashboard" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
             Dashboard
           </Button>
-          <Button color="inherit" component={Link} to="/#/stats" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
+          <Button color="inherit" component={Link} to="/stats" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
             Stats
           </Button>
-          <Button color="inherit" component={Link} to="/#/profile" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
+          <Button color="inherit" component={Link} to="/profile" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
             Profile
           </Button>
           {user?.role === "admin" && (
-            <Button color="inherit" component={Link} to="/#/admin" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
+            <Button color="inherit" component={Link} to="/admin" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
               Admin
             </Button>
           )}
@@ -64,10 +64,10 @@ export default function Navbar({ hideOn = ["/login", "/register"] }) {
           </Button>
         ) : (
           <Box sx={{ display: "flex", gap: theme.spacing(1) }}>
-            <Button color="inherit" component={Link} to="/#/login" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
+            <Button color="inherit" component={Link} to="/login" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
               Login
             </Button>
-            <Button color="inherit" component={Link} to="/#/register" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
+            <Button color="inherit" component={Link} to="/register" sx={{ textTransform: "none", fontWeight: 500, fontSize: "1.4rem" }}>
               Register
             </Button>
           </Box>
