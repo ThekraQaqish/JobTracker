@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import Admin from "./pages/Admin";
+import Stats from "./pages/Stats";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { user } = useSelector((s) => s.auth);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar hideOn={["/login", "/register"]} />
+      <Routes>
+        <Route
+          path="/"
+          element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard"
+          element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
+        />
+        <Route
+          path="/profile"
+          element={<ProtectedRoute><Profile /></ProtectedRoute>}
+        />
+        <Route
+          path="/admin"
+          element={<ProtectedRoute allowRoles={['admin']}><Admin /></ProtectedRoute>}
+        />
+        <Route
+          path="/stats"
+          element={<ProtectedRoute><Stats /></ProtectedRoute>}
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
   );
 }
 
